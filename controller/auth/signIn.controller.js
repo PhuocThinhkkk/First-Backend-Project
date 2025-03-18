@@ -6,7 +6,6 @@ import { JWT_SECRET, JWT_EXPIRES_IN } from "../../config/env.js";
 
 const signIn = async (req, res) => {
     const { email, password } = req.body;
-   // check if exited user and get it but dont get password
     const user = await User.findOne({
        email
     });
@@ -16,8 +15,8 @@ const signIn = async (req, res) => {
             message: "User not found"
         });
     }
-
-    const isMatch =  bcrypt.compare(password, user.password);
+    let isMatch
+    if(user) isMatch =  bcrypt.compare(password, user.password);  
     if (!isMatch) {
         return res.status(401).json({
             success: false,

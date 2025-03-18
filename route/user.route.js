@@ -1,17 +1,16 @@
 import { Router } from "express";
+import authMiddleware from "../middlewares/auth.middleware.js";
+
+import { getAllUsers, getUserById } from "../controller/user.controller.js";
 
 const userRouter = Router();
 
-userRouter.get('/', (req, res) => {
-  res.send({ title : "GET all users" });
-});
+userRouter.get('/', getAllUsers );
 
-userRouter.get('/users/:id', (req, res) => {
-    res.send({ title : "GET user detail" });
-});
+userRouter.get('/:id', authMiddleware, getUserById );
 
 userRouter.post("/", (req, res) => {
-    res.send({ title : "CREATE user" });
+    res.send({ title : "CREATE " });
 });
 
 userRouter.put('/users:id', (req, res) => {
